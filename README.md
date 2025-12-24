@@ -1,3 +1,13 @@
 # binary-search-tree
 
-A balanced binary search tree implemented in JavaScript.
+To install dependencies:
+
+```bash
+bun install
+```
+
+To run:
+
+```bash
+bun run index.ts
+```
