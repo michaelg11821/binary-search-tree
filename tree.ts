@@ -165,4 +165,26 @@ export class Tree {
     callback(currentNode);
     this.inOrderForEach(callback, currentNode.right);
   }
+
+  preOrderForEach(
+    callback: (node: TreeNode) => void,
+    currentNode: TreeNode | null = this.root
+  ) {
+    if (currentNode === null) return;
+
+    callback(currentNode);
+    this.preOrderForEach(callback, currentNode.left);
+    this.preOrderForEach(callback, currentNode.right);
+  }
+
+  postOrderForEach(
+    callback: (node: TreeNode) => void,
+    currentNode: TreeNode | null = this.root
+  ) {
+    if (currentNode === null) return;
+
+    this.postOrderForEach(callback, currentNode.left);
+    this.postOrderForEach(callback, currentNode.right);
+    callback(currentNode);
+  }
 }

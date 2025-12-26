@@ -21,3 +21,6 @@ bst.recursiveLevelOrderForEach(printDataInNode);
 
 console.log("inorder");
 bst.inOrderForEach(printDataInNode);
+
+console.log("preorder");
+bst.preOrderForEach(printDataInNode);
