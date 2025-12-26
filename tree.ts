@@ -101,4 +101,57 @@ export class Tree {
 
     return null;
   }
+
+  iterativeLevelOrderForEach(callback: (node: TreeNode) => void) {
+    if (this.root === null) return;
+
+    const queue: TreeNode[] = [];
+    queue.push(this.root);
+
+    while (queue.length > 0) {
+      const cur = queue[0];
+
+      if (cur === undefined) return;
+
+      callback(cur);
+
+      if (cur.left !== null) {
+        queue.push(cur.left);
+      }
+
+      if (cur.right !== null) {
+        queue.push(cur.right);
+      }
+
+      queue.shift();
+    }
+  }
+
+  recursiveLevelOrderForEach(
+    callback: (node: TreeNode) => void,
+    queue: (TreeNode | null)[] = [this.root]
+  ) {
+    if (queue.length === 0) return;
+
+    const cur = queue[0];
+
+    if (cur === null) return;
+    if (cur === undefined) return;
+
+    callback(cur);
+
+    const levelNodes: TreeNode[] = [];
+
+    if (cur.left !== null) {
+      levelNodes.push(cur.left);
+    }
+
+    if (cur.right !== null) {
+      levelNodes.push(cur.right);
+    }
+
+    queue.shift();
+
+    this.recursiveLevelOrderForEach(callback, [...queue, ...levelNodes]);
+  }
 }
