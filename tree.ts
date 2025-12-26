@@ -56,24 +56,34 @@ export class Tree {
     return currentNode;
   }
 
-  private findNodeBefore(value: any) {
-    let currentNode = this.root;
-
-    while (currentNode !== null) {
-      if (currentNode.left && currentNode.left.data === value) {
-        return currentNode;
-      } else if (currentNode.right && currentNode.right.data === value) {
-        return currentNode;
-      }
-
-      if (value < currentNode.data) {
-        currentNode = currentNode.left;
-      } else {
-        currentNode = currentNode.right;
-      }
+  deleteItem(value: any, currentNode: TreeNode | null = this.root) {
+    if (currentNode === null) {
+      return currentNode;
     }
 
-    return null;
+    if (value > currentNode.data) {
+      currentNode.right = this.deleteItem(value, currentNode.right);
+    } else if (value < currentNode.data) {
+      currentNode.left = this.deleteItem(value, currentNode.left);
+    } else {
+      if (currentNode.left === null) {
+        return currentNode.right;
+      } else if (currentNode.right === null) {
+        return currentNode.left;
+      } else {
+        let cur = currentNode.right;
+        while (cur?.left !== null) {
+          cur = cur.left;
+        }
+
+        currentNode.data = cur.data;
+        currentNode.right = this.deleteItem(
+          currentNode.data,
+          currentNode.right
+        );
+      }
+    }
+    return currentNode;
   }
 
   find(value: any) {
@@ -90,72 +100,5 @@ export class Tree {
     }
 
     return null;
-  }
-
-  private deleteLeaf(prevNode: TreeNode | null, currentNode: TreeNode | null) {
-    if (prevNode === null) return;
-
-    if (prevNode.left === currentNode) {
-      prevNode.left = null;
-    } else if (prevNode.right === currentNode) {
-      prevNode.right = null;
-    }
-  }
-
-  private deleteNodeWithOneChild(
-    prevNode: TreeNode | null,
-    currentNode: TreeNode | null
-  ) {
-    if (currentNode === null) return;
-
-    const childNode = currentNode.left ?? currentNode.right;
-
-    if (prevNode === null) return;
-
-    if (prevNode.left === currentNode) {
-      prevNode.left = childNode;
-    } else if (prevNode.right === currentNode) {
-      prevNode.right = childNode;
-    }
-  }
-
-  // private deleteNodeWithTwoChildren(
-  //   prevNode: TreeNode | null,
-  //   currentNode: TreeNode | null
-  // ) {
-  //   if (currentNode === null) return;
-
-  //   if (currentNode.right === null) return;
-
-  //   let nextBiggestNode: TreeNode | null = currentNode.right;
-
-  //   while (nextBiggestNode.left !== null) {
-  //     nextBiggestNode = nextBiggestNode.left;
-  //   }
-
-  //   if (prevNode === null) return;
-
-  //   if (prevNode.left === currentNode) {
-  //     prevNode.left = nextBiggestNode;
-  //   } else if (prevNode.right === currentNode) {
-  //     prevNode.right = nextBiggestNode;
-  //   }
-  // }
-
-  deleteItem(value: any) {
-    const prevNode = this.findNodeBefore(value);
-    const nodeToDelete = this.find(value);
-
-    if (nodeToDelete === null) return;
-
-    if (nodeToDelete.left === null && nodeToDelete.right === null) {
-      this.deleteLeaf(prevNode, nodeToDelete);
-    }
-
-    if (nodeToDelete.left && nodeToDelete.right === null) {
-      this.deleteNodeWithOneChild(prevNode, nodeToDelete);
-    } else if (nodeToDelete.right && nodeToDelete.left === null) {
-      this.deleteNodeWithOneChild(prevNode, nodeToDelete);
-    }
   }
 }

@@ -10,7 +10,7 @@ bst.insert(2);
 
 bst.prettyPrint();
 
-console.log("deleting 2");
-console.log(bst.deleteItem(2));
+console.log("deleting 67");
+bst.deleteItem(67);
 
 bst.prettyPrint();
