@@ -154,4 +154,15 @@ export class Tree {
 
     this.recursiveLevelOrderForEach(callback, [...queue, ...levelNodes]);
   }
+
+  inOrderForEach(
+    callback: (node: TreeNode) => void,
+    currentNode: TreeNode | null = this.root
+  ) {
+    if (currentNode === null) return;
+
+    this.inOrderForEach(callback, currentNode.left);
+    callback(currentNode);
+    this.inOrderForEach(callback, currentNode.right);
+  }
 }

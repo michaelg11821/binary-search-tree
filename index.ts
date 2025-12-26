@@ -16,4 +16,8 @@ bst.deleteItem(67);
 
 bst.prettyPrint();
 
+console.log("level order");
 bst.recursiveLevelOrderForEach(printDataInNode);
+
+console.log("inorder");
+bst.inOrderForEach(printDataInNode);
